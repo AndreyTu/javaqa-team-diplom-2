@@ -43,14 +43,16 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > -creditLimit) {
-            balance = -amount;
+        // balance -=amount; issue #3
+        if (balance - amount > -creditLimit) { // if (balance > -creditLimit) issue #4
+            balance -= amount; // issue #3
             return true;
         } else {
-            return false;
+            // return false; //issue #4
+            throw new IllegalStateException("Сумма покупки превышает кредитный лимит"); // issue #4
         }
     }
+
 
     /**
      * Операция пополнения карты на указанную сумму.
