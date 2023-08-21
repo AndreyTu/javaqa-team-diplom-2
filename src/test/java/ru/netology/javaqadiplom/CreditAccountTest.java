@@ -59,4 +59,18 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(1_000, account.getBalance());
     }
+    @Test
+    public void testPayPositiveBalance() {
+        CreditAccount account = new CreditAccount(
+                2_000,
+                5_000,
+                10
+        );
+
+        account.add(10_000);
+
+        int expected = 2_000;
+
+        Assertions.assertEquals(10_000, account.getBalance());
+    }
 }
