@@ -83,4 +83,13 @@ public class CreditAccountTest {
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {new CreditAccount(5000, -10000, 15);});
     }
+    @Test
+    public void testPayBalanceEqualsCreditLimit() {
+        CreditAccount account = new CreditAccount(5_000, 10_000, 10);
+
+        boolean expected = true;
+        boolean actual = account.pay(15_000);
+
+        Assertions.assertEquals(expected, actual);
+    }
 }
