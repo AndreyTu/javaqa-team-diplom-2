@@ -74,13 +74,13 @@ public class CreditAccountTest {
         Assertions.assertEquals(10_000, account.getBalance());
     }
     @Test
-    public void testIllegalArgumentExceptionInitialBalance() {
-        int initialBalance = -5_000;
-        int creditLimit = 10_000;
-        int amount = 0;
+    public void IllegalArgumentExceptionInitialBalanceTest() {
 
-        ru.netology.javaqadiplom.CreditAccount account = new ru.netology.javaqadiplom.CreditAccount(initialBalance, creditLimit, 10);
-        boolean result = account.pay(amount);
-        assertFalse(result);
-            }
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {new CreditAccount(-1000, 10000, 15);});
+    }
+    @Test
+    public void testIllegalArgumentExceptionCreditLimit() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {new CreditAccount(5000, -10000, 15);});
+    }
 }
