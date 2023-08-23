@@ -73,4 +73,9 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(10_000, account.getBalance());
     }
+    @Test
+    public void testIllegalArgumentExceptionInitialBalance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {new CreditAccount(-5000, 10000, 10);});
+    }
 }
