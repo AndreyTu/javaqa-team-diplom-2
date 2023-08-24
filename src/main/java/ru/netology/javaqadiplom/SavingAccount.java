@@ -1,7 +1,7 @@
 package ru.netology.javaqadiplom;
 
 /**
- * Сберегательный счёт
+ * Сберегательный счёт №1
  * Может иметь баланс только в пределах от указанного минимального до указанного максимального включительно.
  * Не может уходить в минус (минимальный баланс не может быть отрицательным).
  * Имеет ставку - количество процентов годовых на остаток.
@@ -25,6 +25,16 @@ public class SavingAccount extends Account {
             throw new IllegalArgumentException(
                     "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
+       }
+        if (minBalance > maxBalance) {
+            throw new IllegalArgumentException("Начальный баланс не может быть больше максимального значения: " + initialBalance);
+        }
+        if (initialBalance < minBalance) {
+            throw new IllegalArgumentException("Начальный баланс не может быть меньше минимального значения, а у вас: " + initialBalance);
+        }
+        if (initialBalance > maxBalance) {
+            throw new IllegalArgumentException("Начальный баланс не может быть больше  максимального значения: " + initialBalance);
+        }
         }
         this.balance = initialBalance;
         this.minBalance = minBalance;

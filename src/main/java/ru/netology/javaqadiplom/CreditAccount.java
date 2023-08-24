@@ -23,6 +23,16 @@ public class CreditAccount extends Account {
                     "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
         }
+        if (initialBalance <= 0) {// issue #9
+            throw new IllegalArgumentException(
+                    "Начальный баланс не может быть отрицательным, а у вас: " + initialBalance
+            );
+        }
+        if (creditLimit < 0) { // issue #10
+            throw new IllegalArgumentException(
+                    "Кредитный лимит не может быть отрицательным, а у вас: " + creditLimit
+            );
+        }
         this.balance = initialBalance;
         this.creditLimit = creditLimit;
         this.rate = rate;
@@ -43,14 +53,16 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > -creditLimit) {
-            balance = -amount;
+        // balance -=amount; issue #3
+        if (balance - amount > -creditLimit) { // if (balance > -creditLimit) issue #4
+            balance -= amount; // issue #3
             return true;
         } else {
-            return false;
+            // return false; //issue #4
+            throw new IllegalStateException("Сумма покупки превышает кредитный лимит"); // issue #4
         }
     }
+
 
     /**
      * Операция пополнения карты на указанную сумму.
@@ -69,7 +81,7 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = amount;
+        balance += amount; // balance = amount issue #1
         return true;
     }
 
@@ -83,8 +95,12 @@ public class CreditAccount extends Account {
      * @return
      */
     @Override
-    public int yearChange() {
-        return balance / 100 * rate;
+     public int yearChange() {
+        if (balance < 0) { // issue #2
+            return (-balance / 100) * rate;
+        } else {
+            return 0;
+        }
     }
 
     public int getCreditLimit() {
