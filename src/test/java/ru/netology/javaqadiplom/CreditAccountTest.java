@@ -59,4 +59,31 @@ public class CreditAccountTest {
 
         Assertions.assertEquals(1_000, account.getBalance());
     }
+
+    @Test
+    public void testIllegalArgumentExceptionInitialBalance() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new CreditAccount(-5000, 10000, 10);
+        });
+    }
+
+    @Test
+    public void testIllegalArgumentExceptionCreditLimit() {
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            new CreditAccount(5000, -10000, 10);
+        });
+    }
+
+    @Test
+    public void testPayBalanceEqualsCreditLimit() {
+        CreditAccount account = new CreditAccount(5000, 10_000, 10);
+
+        boolean expected = true;
+        boolean actual = account.pay(15_000);
+
+        Assertions.assertEquals(expected, actual);
+    }
+
 }
