@@ -18,17 +18,17 @@ public class CreditAccount extends Account {
      * @param rate           - неотрицательное число, ставка кредитования для расчёта долга за отрицательный баланс
      */
     public CreditAccount(int initialBalance, int creditLimit, int rate) {
-        if (rate <= 0) {
+        if (rate < 0) {
             throw new IllegalArgumentException(
                     "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
         }
-        if (initialBalance <= 0) {// issue #9
+        if (initialBalance < 0) {
             throw new IllegalArgumentException(
                     "Начальный баланс не может быть отрицательным, а у вас: " + initialBalance
             );
         }
-        if (creditLimit < 0) { // issue #10
+        if (creditLimit < 0) {
             throw new IllegalArgumentException(
                     "Кредитный лимит не может быть отрицательным, а у вас: " + creditLimit
             );
@@ -53,16 +53,14 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        // balance -=amount; issue #3
-        if (balance - amount > -creditLimit) { // if (balance > -creditLimit) issue #4
-            balance -= amount; // issue #3
+
+        if (balance - amount >= -creditLimit) {
+            balance = balance - amount;
             return true;
         } else {
-            // return false; //issue #4
-            throw new IllegalStateException("Сумма покупки превышает кредитный лимит"); // issue #4
+            return false;
         }
     }
-
 
     /**
      * Операция пополнения карты на указанную сумму.
@@ -81,7 +79,7 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance += amount; // balance = amount issue #1
+        balance = balance + amount;
         return true;
     }
 
@@ -95,12 +93,11 @@ public class CreditAccount extends Account {
      * @return
      */
     @Override
-     public int yearChange() {
-        if (balance < 0) { // issue #2
-            return (-balance / 100) * rate;
-        } else {
-            return 0;
+    public int yearChange() {
+        if (balance >= -creditLimit && balance < 0) {
+            return balance / 100 * rate;
         }
+        return 0;
     }
 
     public int getCreditLimit() {
