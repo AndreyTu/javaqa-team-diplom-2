@@ -5,26 +5,11 @@ import org.junit.jupiter.api.Test;
 
 public class CreditAccountTest {
     @Test
-    public void testYearChangeNegativeBalance() {
-        CreditAccount account = new CreditAccount(
-                -4_000,
-                5_000,
-                10);
-
-
-        int expected = 0;
-        int actual = account.yearChange();
-
-        Assertions.assertEquals(expected, actual);
-    }
-
-    @Test
     public void yearChangeMoreCreditLimitBalanceTest() {
         CreditAccount account = new CreditAccount(
                 1000,
                 6_000,
-                15
-        );
+                15);
 
         account.pay(8000);
 
@@ -40,8 +25,7 @@ public class CreditAccountTest {
         CreditAccount account = new CreditAccount(
                 5_000,
                 10_000,
-                10
-        );
+                10);
 
         boolean expected = true;
         boolean actual = account.pay(15_000);
@@ -54,8 +38,7 @@ public class CreditAccountTest {
         CreditAccount account = new CreditAccount(
                 2_000,
                 5_000,
-                10
-        );
+                10);
 
         account.pay(10_000);
 
@@ -69,8 +52,7 @@ public class CreditAccountTest {
         CreditAccount account = new CreditAccount(
                 5000,
                 6_000,
-                5
-        );
+                5);
 
         account.pay(2000);
 
@@ -85,8 +67,7 @@ public class CreditAccountTest {
         CreditAccount account = new CreditAccount(
                 0,
                 10_000,
-                5
-        );
+                5);
 
         boolean expected = true;
         boolean actual = account.pay(10_000);
@@ -100,8 +81,7 @@ public class CreditAccountTest {
         CreditAccount account = new CreditAccount(
                 2_000,
                 5_000,
-                15
-        );
+                15);
 
         account.add(3_000);
 
@@ -109,25 +89,11 @@ public class CreditAccountTest {
     }
 
     @Test
-    public void shouldAddToNegativeBalance() {
-        CreditAccount account = new CreditAccount(
-                -2_000,
-                5_000,
-                15
-        );
-
-        account.add(3_000);
-
-        Assertions.assertEquals(1_000, account.getBalance());
-    }
-
-    @Test
     public void AddWithZeroBalanceTest() {
         CreditAccount account = new CreditAccount(
                 0,
                 5_000,
-                10
-        );
+                10);
 
         boolean expected = true;
         boolean actual = account.add(5_000);
@@ -143,8 +109,7 @@ public class CreditAccountTest {
             new CreditAccount(
                     -5000,
                     10000,
-                    10
-            );
+                    10);
         });
     }
 
@@ -155,8 +120,7 @@ public class CreditAccountTest {
             new CreditAccount(
                     5000,
                     -10000,
-                    10
-            );
+                    15);
         });
     }
 }
