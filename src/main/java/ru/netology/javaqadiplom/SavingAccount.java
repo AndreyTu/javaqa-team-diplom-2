@@ -1,7 +1,7 @@
 package ru.netology.javaqadiplom;
 
 /**
- * Сберегательный счёт
+ * Сберегательный счёт №1
  * Может иметь баланс только в пределах от указанного минимального до указанного максимального включительно.
  * Не может уходить в минус (минимальный баланс не может быть отрицательным).
  * Имеет ставку - количество процентов годовых на остаток.
@@ -14,16 +14,27 @@ public class SavingAccount extends Account {
      * Создаёт новый объект сберегательного счёта с заданными параметрами.
      * Если параметры некорректны (мин. баланс больше максимального и так далее), то
      * должно выкидываться исключения вида IllegalArgumentException.
+     *
      * @param initialBalance - начальный баланс
-     * @param minBalance - минимальный баланс
-     * @param maxBalance - максимальный баланс
-     * @param rate - неотрицательное число, ставка в процентах годовых на остаток
+     * @param minBalance     - минимальный баланс
+     * @param maxBalance     - максимальный баланс
+     * @param rate           - неотрицательное число, ставка в процентах годовых на остаток
      */
     public SavingAccount(int initialBalance, int minBalance, int maxBalance, int rate) {
         if (rate < 0) {
             throw new IllegalArgumentException(
-              "Накопительная ставка не может быть отрицательной, а у вас: " + rate
+                    "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
+       }
+        if (minBalance > maxBalance) {
+            throw new IllegalArgumentException("Начальный баланс не может быть больше максимального значения: " + initialBalance);
+        }
+        if (initialBalance < minBalance) {
+            throw new IllegalArgumentException("Начальный баланс не может быть меньше минимального значения, а у вас: " + initialBalance);
+        }
+        if (initialBalance > maxBalance) {
+            throw new IllegalArgumentException("Начальный баланс не может быть больше  максимального значения: " + initialBalance);
+        }
         }
         this.balance = initialBalance;
         this.minBalance = minBalance;
@@ -37,6 +48,7 @@ public class SavingAccount extends Account {
      * на сумму покупки. Если же операция может привести к некорректному
      * состоянию счёта (например, баланс может уйти в минус), то операция должна
      * завершиться вернув false и ничего не поменяв на счёте.
+     *
      * @param amount - сумма покупки
      * @return true если операция прошла успешно, false иначе.
      */
@@ -45,8 +57,8 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance - amount;
-        if (balance > minBalance) {
+        if (balance - amount >= minBalance) {
+            balance = balance - amount;
             return true;
         } else {
             return false;
@@ -59,9 +71,10 @@ public class SavingAccount extends Account {
      * на сумму покупки. Если же операция может привести к некорректному
      * состоянию счёта, то операция должна
      * завершиться вернув false и ничего не поменяв на счёте.
+     *
      * @param amount - сумма пополнения
-     * @return true если операция прошла успешно, false иначе.
      * @param amount
+     * @return true если операция прошла успешно, false иначе.
      * @return
      */
     @Override
@@ -69,8 +82,8 @@ public class SavingAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        if (balance + amount < maxBalance) {
-            balance = amount;
+        if ((balance + amount) <= maxBalance) {
+            balance += amount;
             return true;
         } else {
             return false;
@@ -82,6 +95,7 @@ public class SavingAccount extends Account {
      * счёт не будет меняться год. Сумма процентов приводится к целому
      * числу через отбрасывание дробной части (так и работает целочисленное деление).
      * Пример: если на счёте 200 рублей, то при ставке 15% ответ должен быть 30.
+     *
      * @return
      */
     @Override
