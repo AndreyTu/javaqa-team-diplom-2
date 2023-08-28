@@ -20,17 +20,17 @@ public class CreditAccount extends Account {
     public CreditAccount(int initialBalance, int creditLimit, int rate) {
         if (rate < 0) {
             throw new IllegalArgumentException(
-                    "Накопительная ставка не может быть отрицательной, а у вас: " + rate 
+                    "Накопительная ставка не может быть отрицательной, а у вас: " + rate
             );
         }
         if (initialBalance < 0) {
             throw new IllegalArgumentException(
-                    "Начальный баланс не может быть отрицательным, а у вас: " + initialBalance //issue #9
+                    "Начальный баланс не может быть отрицательным, а у вас: " + initialBalance
             );
         }
         if (creditLimit < 0) {
             throw new IllegalArgumentException(
-                    "Кредитный лимит не может быть отрицательным, а у вас: " + creditLimit //issue #10
+                    "Кредитный лимит не может быть отрицательным, а у вас: " + creditLimit
             );
         }
         this.balance = initialBalance;
@@ -79,7 +79,7 @@ public class CreditAccount extends Account {
         if (amount <= 0) {
             return false;
         }
-        balance = balance + amount; //issue #1
+        balance = balance + amount;
         return true;
     }
 
@@ -88,13 +88,14 @@ public class CreditAccount extends Account {
      * счёт не будет меняться год. Сумма процентов приводится к целому
      * числу через отбрасывание дробной части (так и работает целочисленное деление).
      * Пример: если на счёте -200 рублей, то при ставке 15% ответ должен быть -30.
+     * 
      * Пример 2: если на счёте 200 рублей, то при любой ставке ответ должен быть 0.
      *
      * @return
      */
     @Override
     public int yearChange() {
-        if (balance >= -creditLimit && balance < 0) { //issue #2, issue #3, issue #4, issue #14
+        if (balance >= -creditLimit && balance < 0) {
             return balance / 100 * rate;
         }
         return 0;
