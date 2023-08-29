@@ -96,8 +96,6 @@ public class CreditAccountTest {
         boolean expected = true;
         boolean actual = account.add(5_000);
 
-        account.add(3_000);
-
         Assertions.assertEquals(5_000, account.getBalance());
     }
 
